@@ -1,0 +1,19 @@
+.commentContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 450px;
+}
+.commentsButton {
+  align-self: flex-end;
+}
+.commentReplies {
+  padding-left: 20px;
+}
+.reply-container {
+  display: flex;
+  flex-direction: column;
+}
+.reply-btns {
+  align-self: flex-end;
+}
