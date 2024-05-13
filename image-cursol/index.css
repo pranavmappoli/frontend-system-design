@@ -1,0 +1,40 @@
+.container {
+  display: grid;
+  place-items: center;
+  width: 100vw;
+  height: 100vh;
+}
+.image-container {
+  display: flex;
+  width: 600px;
+  height: 600px;
+  background-color: brown;
+  overflow-x: hidden;
+}
+.btn {
+  height: 3rem;
+  width: 3rem;
+  border-radius: 50%;
+  font-size: large;
+  font-weight: 700;
+  background-color: rgb(136, 136, 223);
+  color: white;
+  border: none;
+}
+.image-container img {
+  width: 100%;
+  height: auto;
+  object-fit: fill;
+}
+.cursor {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2rem;
+}
+
+.nav-container {
+  display: flex;
+  gap: 2rem;
+}
