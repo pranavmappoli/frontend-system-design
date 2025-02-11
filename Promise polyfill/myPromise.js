@@ -2,27 +2,8 @@ function myPromise(callbackFn) {
   let onResolve;
   let onReject;
   let value;
-  let isResolved;
-  let isRejected;
   let error;
-  let isCalled = false;
-
-  //then without chaining
-  //   this.then = function (thenHandler) {
-  //     onResolve = thenHandler;
-  //     if (isResolved && !isCalled) {
-  //       onResolve(value);
-  //     }
-  //     return this;
-  //   };
-
-  //   this.catch = function (catchHandler) {
-  //     onReject = catchHandler;
-  //     if (isRejected && !isCalled) {
-  //       onReject(error);
-  //     }
-  //     return this;
-  //   };
+  let isFulfilled = false; // Single flag for both resolved & rejected
 
   this.then = function (thenHandler) {
     return new myPromise((resolve, reject) => {
@@ -38,7 +19,7 @@ function myPromise(callbackFn) {
           reject(err);
         }
       };
-      if (isResolved) {
+      if (isFulfilled && value !== undefined) {
         onResolve(value);
       }
     });
@@ -58,41 +39,42 @@ function myPromise(callbackFn) {
           reject(catchErr);
         }
       };
-      if (isRejected) {
+      if (isFulfilled && error !== undefined) {
         onReject(error);
       }
     });
   };
 
   function resolve(val) {
-    isResolved = true;
-    value = val;
-    if (onResolve && !isCalled) {
-      onResolve(val);
+    if (!isFulfilled) {
+      isFulfilled = true;
+      value = val;
+      if (onResolve) {
+        onResolve(val);
+      }
     }
   }
 
   function reject(err) {
-    isRejected = true;
-    error = err;
-    if (onReject && !isCalled) {
-      onReject(error);
+    if (!isFulfilled) {
+      isFulfilled = true;
+      error = err;
+      if (onReject) {
+        onReject(err);
+      }
     }
   }
 
   callbackFn(resolve, reject);
 }
 
-// export default myPromise;
+// Example Usage:
 
-new myPromise((res, rej) => setTimeout(() => res(500), 1000)).then((val) =>
-  console.log(val)
-);
-new myPromise((res, rej) => rej(1000))
-  .then((val) => {})
-  .catch((err) => console.log(err));
+new myPromise((res) => setTimeout(() => res(500), 1000)).then(console.log);
 
-new myPromise((res, rej) => setTimeout(() => res(500), 1000))
+new myPromise((_, rej) => rej(1000)).catch(console.log);
+
+new myPromise((res) => setTimeout(() => res(500), 1000))
   .then((val) => {
     console.log("First then:", val);
     return val * 2;

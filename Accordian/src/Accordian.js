@@ -1,5 +1,4 @@
 import React, { useContext, useState, createContext } from "react"
-import classes from "./Accordian.module.css"
 
 const AccordianContext = createContext({ open: false })
 
@@ -8,7 +7,10 @@ function Accordian({ children }) {
 
   return (
     <AccordianContext.Provider value={{ open, setOpen }}>
+      <div className="relative overflow-y-hidden">
+
       {children}
+      </div>
     </AccordianContext.Provider>
   )
 }
@@ -16,7 +18,7 @@ function Accordian({ children }) {
 function Title({ children }) {
   const { setOpen } = useContext(AccordianContext)
   return (
-    <div className={classes.title} onClick={() => setOpen((prev) => !prev)} role="button">
+    <div  onClick={() => setOpen((prev) => !prev)} role="button" className="bg-green-400 min-w-64">
       {children}
     </div>
   )
@@ -25,11 +27,10 @@ function Title({ children }) {
 function Content({ children }) {
   const { open } = useContext(AccordianContext)
   return (
-      <div>
-      {open && <div>
+
+      <div className={`absolute bottom-0 left-0 bg-red-400  ${open?"translate-y-full":""}`}>
         {children}
-      </div>}
-    </ div>
+      </div>
       )
 }
       Accordian.Title=Title
