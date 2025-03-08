@@ -64,7 +64,7 @@ function Calender() {
         </select>
       </div>
       <ul className="grid grid-cols-7 gap-2 p-2">
-        {["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"].map((day) => (
+        {weekDays.map((day) => (
           <div key={day} className="p-2">
             {day}
           </div>
