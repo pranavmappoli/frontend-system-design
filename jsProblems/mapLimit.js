@@ -49,7 +49,7 @@ export default function mapAsyncLimit(
     }
     
     for (let i=0;i<Math.min(size,iterable.lenght);i++){
-        processItem(nextIndex)
+        processItem(nextIndex++)
     }
 
       

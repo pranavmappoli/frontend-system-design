@@ -1,11 +1,7 @@
-import React from "react";
+import React, { useEffect, useEffectEvent } from "react";
 
-const App = () => {
-  return (
-    <div className="flex items-center justify-center w-screen h-screen p-8 bg-blue-300">
-      hellooo
-    </div>
-  );
-};
+function App() {
+  return <div>hellooo</div>;
+}
 
 export default App;

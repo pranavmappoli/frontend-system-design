@@ -9,8 +9,8 @@ async function fetchWithTimeOut(url, time) {
       .catch((err) => rej(err));
 
     setTimeout(() => {
-      rej();
       abortController.abort();
+      rej();
     }, time);
   });
 }

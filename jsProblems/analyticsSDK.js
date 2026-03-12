@@ -1,3 +1,11 @@
+/**
+ * Implement an analytics SDK that exposes log events, it takes in events and queues them, and then starts sending the events. This is a Flipkart frontend interview question.
+
+Send each event after a delay of 1 second and this logging fails every n % 5 times.
+Send the next event only after the previous one resolves.
+When the failure occurs attempt a retry.
+ */
+
 class AnalyticSDK {
   constructor() {
     this.queue = [];
@@ -13,7 +21,7 @@ class AnalyticSDK {
         this.processed = 0;
         throw "error";
       }
-      console.log(log, this.queue.length);
+      console.log(log);
     } catch {
       console.log("failed", log);
       return this.#sendData(log);

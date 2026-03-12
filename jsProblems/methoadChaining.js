@@ -4,23 +4,23 @@
 
 function computeAmount() {
   let total = 0;
-  return (obj = {
+  return {
     lacs(val) {
       total += val * 100000;
-      return obj;
+      return this;
     },
     crore(val) {
       total += val * 10000000;
-      return obj;
+      return this;
     },
     thousand(val) {
       total += val * 1000;
-      return obj;
+      return this;
     },
     value() {
       return total;
     },
-  });
+  };
 }
 
 const val = computeAmount()

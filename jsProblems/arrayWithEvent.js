@@ -1,3 +1,7 @@
+/**
+Extend the arrays in javascript such that an event gets dispatched whenever an item is added or removed.
+ */
+
 Array.prototype.addListener = function (eventName, callback) {
   if (!Object.prototype.hasOwnProperty.call(this, "listeners")) {
     Object.defineProperty(this, "listeners", {
