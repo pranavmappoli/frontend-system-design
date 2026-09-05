@@ -83,7 +83,7 @@ function Calculator() {
   };
   const evaluateHanlder = () => {
     const evalStr = input.join("");
-    const res = evaluteExpression(evalStr);
+    const [res] = evaluteExpression(evalStr);
     setInput([res]);
   };
 
@@ -91,40 +91,39 @@ function Calculator() {
     inputRef.current.focus();
   }, []);
 
-  function evaluteExpression() {
+  function evaluteExpression(evalStr) {
     let crntNum = "";
     let crntOp = "+";
     const opArry = [];
     let indx = 0;
 
-    const operEval = (operator, num) => {
-      if (operator === "+") {
-        opArry.push(+num);
-      } else if (operator === "-") {
-        opArry.push(-num);
-      } else if (operator === "/") {
-        const frst = opArry.pop();
-        opArry.push(frst / num);
-      } else if (operator === "*") {
-        const frst = opArry.pop();
-        opArry.push(frst * num);
-      }
-    };
+    function evaluate(crntNum, crntOp) {
+      if (crntOp === "+") opArry.push(+crntNum);
+      else if (crntOp === "-") opArry.push(-crntNum);
+      else if (crntOp === "*") opArry.push(opArry.pop() * crntNum);
+      else if (crntOp === "/") opArry.push(opArry.pop() / crntNum);
+    }
 
-    while (indx < input.length) {
-      if (operators.has(input[indx])) {
-        operEval(crntOp, crntNum);
+    while (indx < evalStr.length) {
+      if (operators.has(evalStr[indx])) {
+        evaluate(crntNum, crntOp);
         crntNum = "";
-        crntOp = input[indx];
-      } else if (!isNaN(input[indx])) {
-        crntNum += input[indx];
+        crntOp = evalStr[indx];
+      } else if (evalStr[indx] === "(") {
+        const [val, nextIndx] = evaluteExpression(evalStr.slice(indx + 1));
+        evaluate(val, crntOp);
+        crntOp = "+";
+        indx = indx + nextIndx + 1;
+      } else if (evalStr[indx] === ")") {
+        evaluate(crntNum, crntOp);
+        return [opArry.reduce((total, num) => total + num, 0), indx];
+      } else if (!isNaN(evalStr[indx])) {
+        crntNum += evalStr[indx];
       }
-      console.log(crntNum, crntOp);
       indx += 1;
     }
-    operEval(crntOp, crntNum);
-    console.log(opArry);
-    return opArry.reduce((crnt, num) => crnt + num, 0);
+    evaluate(crntNum, crntOp);
+    return [opArry.reduce((total, num) => total + num, 0), indx];
   }
 
   return (
@@ -255,6 +254,18 @@ function Calculator() {
           onClick={() => numberHandler(".")}
         >
           .
+        </Button>
+        <Button
+          className="bg-gray-700 hover:bg-gray-600"
+          onClick={() => numberHandler("(")}
+        >
+          (
+        </Button>
+        <Button
+          className="bg-gray-700 hover:bg-gray-600"
+          onClick={() => numberHandler(")")}
+        >
+          )
         </Button>
         <Button
           className="bg-orange-500 hover:bg-orange-600"
